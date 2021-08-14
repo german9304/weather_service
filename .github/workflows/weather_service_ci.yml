@@ -5,5 +5,11 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: maven
     steps:
       - run: echo "buiilding maven project"
+      - run: mvn -v
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.4
+      - run: mvn package
+      - run: mvn test
