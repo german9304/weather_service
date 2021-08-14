@@ -1,0 +1,9 @@
+name: weather service api
+on: [push]
+env:
+  SERVER_NAME: weather_service
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "buiilding maven project"
