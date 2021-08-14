@@ -1,4 +1,4 @@
-name: weather service api
+name: weather_service_ci
 on: [push]
 env:
   SERVER_NAME: weather_service
