@@ -12,3 +12,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2.3.4
       - run: mvn package
+  test:
+    runs-on: ubuntu-latest
+    container: maven
+    steps:
+      - run: echo "testing project"
+      - run: mvn -v
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.4
+      - run: mvn package
+      - run: mvn test
