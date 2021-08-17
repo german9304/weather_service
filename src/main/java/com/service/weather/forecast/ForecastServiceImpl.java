@@ -7,13 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-
 @Slf4j
 @Service
 public class ForecastServiceImpl implements ForecastService {
 
-    private WebClient webClient;
+    private final WebClient webClient;
 
     ForecastServiceImpl(
             WebClient.Builder webClient
@@ -25,7 +23,9 @@ public class ForecastServiceImpl implements ForecastService {
         return this.webClient;
     }
 
-    public Mono<ResponseEntity<Forecast>> getForcast(String url) {
+    public Mono<ResponseEntity<Forecast>> getForecast(String url) {
+        this.log.info("requesting forecast");
+        this.log.warn("warning");
         return this.webClient.get().uri(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
