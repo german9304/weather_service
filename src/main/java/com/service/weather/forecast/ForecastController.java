@@ -1,21 +1,14 @@
 package com.service.weather.forecast;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-
-@Data
-class forecastData {
-    private ArrayList<Periods> data;
-
-    forecastData(ArrayList<Periods> periods) {
-        this.data = periods;
-    }
-}
+@Slf4j
 @RestController
 public class ForecastController {
 
@@ -33,9 +26,14 @@ public class ForecastController {
      * @return Mono<ResponseEntity<Forecast>>>
      */
     @GetMapping(api)
-    public Mono<ResponseEntity<Forecast>> getForeCast() {
+    public Mono<ResponseEntity<Forecast>> getForeCast(
+            @RequestParam("grid_x") String gridX,
+            @RequestParam("grid_y") String gridY
+    ) {
+        String gridPointsUrl = String.format("gridpoints/SGX/%s,%s/forecast", gridX, gridY);
+        this.log.info(gridPointsUrl);
         return this.forecastService
-                .getForcast("gridpoints/SGX/56,13/forecast");
+                .getForecast(gridPointsUrl);
     }
 
 }
