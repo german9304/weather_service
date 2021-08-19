@@ -16,6 +16,7 @@ public class ForecastServiceImpl implements ForecastService {
     ForecastServiceImpl(
             WebClient.Builder webClient
     ) {
+
         this.webClient = webClient.baseUrl("https://api.weather.gov").build();
     }
 
@@ -25,7 +26,6 @@ public class ForecastServiceImpl implements ForecastService {
 
     public Mono<ResponseEntity<Forecast>> getForecast(String url) {
         this.log.info("requesting forecast");
-        this.log.warn("warning");
         return this.webClient.get().uri(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()

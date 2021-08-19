@@ -7,6 +7,7 @@ import java.util.ArrayList;
 @Data
 class Periods {
     private String name;
+    private String context;
     private String startTime;
     private String endTime;
     private String detailedForecast;
