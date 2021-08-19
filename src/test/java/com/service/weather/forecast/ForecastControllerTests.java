@@ -1,5 +1,6 @@
 package com.service.weather.forecast;
 
+import com.service.weather.geocoding.GecodingService;
 import lombok.extern.slf4j.Slf4j;
 import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,9 @@ public class ForecastControllerTests {
     @MockBean
     private ForecastService forecastService;
 
+    @MockBean
+    private GecodingService gecodingService;
+
     @BeforeEach
     public void beforeEach() {
         this.log.info("Before each tests");
@@ -36,7 +40,7 @@ public class ForecastControllerTests {
     @Test
     public void forecastShouldReturn200() throws Exception {
 
-        String url = "/api/forecast?grid_x=3&grid_y=4";
+        String url = "/api/forecast/gridpoints?latitude=3&longitude=4";
         Forecast forecastMock = new Forecast();
         Properties propertiesMock = new Properties();
         forecastMock.setProperties(propertiesMock);
