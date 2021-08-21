@@ -1,5 +1,7 @@
 package com.service.weather.forecast;
 
+import com.service.weather.forecast.entities.ForecastEntity;
+import com.service.weather.forecast.entities.GridendpointsEntity;
 import com.service.weather.geocoding.GecodingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,8 +17,8 @@ import reactor.core.publisher.Mono;
 public class ForecastController {
 
     private final String api ="/api/forecast";
-    private ForecastService forecastService;
-    private GecodingService gecodingService;
+    private final ForecastService forecastService;
+    private final GecodingService gecodingService;
 
     ForecastController(
             ForecastService forecastService,
@@ -25,6 +27,20 @@ public class ForecastController {
 
         this.forecastService = forecastService;
         this.gecodingService = gecodingService;
+    }
+
+    @GetMapping(api + "/gridendpoints")
+    public Mono<ResponseEntity<GridendpointsEntity>> getGridEndpoints(
+            @RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude
+    ) {
+
+        this.log.info("latitude " + latitude);
+        return this.forecastService
+                .getGridEndpoints(
+                        latitude,
+                        longitude
+                );
     }
 
     /**
@@ -41,7 +57,7 @@ public class ForecastController {
      * @return Forecast instance
      */
     @GetMapping(api)
-    public ResponseEntity<String> getWeatherByAddress(
+    public Mono<ResponseEntity<GridendpointsEntity>> getWeatherByAddress(
             @RequestParam("address") String address
     ) {
         try {
@@ -49,14 +65,17 @@ public class ForecastController {
             if(geocodinfResults.isPresent()) {
                 Double latitude = geocodinfResults.get()[0].geometry.location.lat;
                 Double longitude = geocodinfResults.get()[0].geometry.location.lng;
-                String gridPoints = String.format("Fetching longitude: %s, latitude: %s", latitude, longitude);
+                String gridPoints = String.format("Fetching latitude: %s, longitude: %s", latitude, longitude);
                 this.log.info(gridPoints);
-                return ResponseEntity.status(HttpStatus.OK).body(gridPoints);
+                return this.forecastService.getGridEndpoints(
+                        latitude,
+                       longitude
+                );
             }
         }catch (Exception e) {
             this.log.error("Error fetching weather by address " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("incorrect address");
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GridendpointsEntity()));
     }
 
     /**
@@ -64,11 +83,11 @@ public class ForecastController {
      * @return Mono<ResponseEntity<Forecast>>>
      */
     @GetMapping(api + "/gridpoints")
-    public Mono<ResponseEntity<Forecast>> getForeCast(
-            @RequestParam("latitude") String latitude,
-            @RequestParam("longitude") String longitude
+    public Mono<ResponseEntity<ForecastEntity>> getForeCast(
+            @RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude
     ) {
-        String gridPointsUrl = String.format("gridpoints/SGX/%s,%s/forecast", latitude, longitude);
+        String gridPointsUrl = String.format("/gridpoints/HNX/%s,%s/forecast", latitude, longitude);
         return this.forecastService
                 .getForecast(gridPointsUrl);
     }

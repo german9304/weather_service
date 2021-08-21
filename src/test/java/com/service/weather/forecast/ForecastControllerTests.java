@@ -1,5 +1,7 @@
 package com.service.weather.forecast;
 
+import com.service.weather.forecast.entities.ForecastEntity;
+import com.service.weather.forecast.entities.ForecastEntity;
 import com.service.weather.geocoding.GecodingService;
 import lombok.extern.slf4j.Slf4j;
 import static org.mockito.Mockito.when;
@@ -41,10 +43,9 @@ public class ForecastControllerTests {
     public void forecastShouldReturn200() throws Exception {
 
         String url = "/api/forecast/gridpoints?latitude=3&longitude=4";
-        Forecast forecastMock = new Forecast();
-        Properties propertiesMock = new Properties();
-        forecastMock.setProperties(propertiesMock);
-        Mono<ResponseEntity<Forecast>> responseEntity = Mono.just(
+        ForecastEntity forecastMock = new ForecastEntity();
+        forecastMock.setProperties(forecastMock.getProperties());
+        Mono<ResponseEntity<ForecastEntity>> responseEntity = Mono.just(
                 ResponseEntity.status(HttpStatus.OK).body(forecastMock)
         );
 
