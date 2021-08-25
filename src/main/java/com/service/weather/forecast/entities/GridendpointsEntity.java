@@ -27,4 +27,8 @@ class GridendpointsPropertiesEntity {
 @Data
 public class GridendpointsEntity {
     private GridendpointsPropertiesEntity properties;
+
+    public String getForecast() {
+        return this.properties.getForecast();
+    }
 }

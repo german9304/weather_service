@@ -32,7 +32,7 @@ public class ForecastServiceImpl implements ForecastService {
      * @param longitude
      * @return
      */
-    public Mono<ResponseEntity<GridendpointsEntity>> getGridEndpoints(Double latitude, Double longitude) {
+    public Mono<GridendpointsEntity> getGridEndpoints(Double latitude, Double longitude) {
         this.log.info("requesting forecast");
         return this.webClient.get().uri((uriBuilder) -> {
             var urib = uriBuilder.path("/points/{x},{y}")
@@ -45,7 +45,7 @@ public class ForecastServiceImpl implements ForecastService {
         })
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .toEntity(GridendpointsEntity.class);
+                .bodyToMono(GridendpointsEntity.class);
     }
 
     public Mono<ResponseEntity<ForecastEntity>> getForecast(String url) {
