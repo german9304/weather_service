@@ -15,11 +15,10 @@ When forecast gets fetched from address the api calls Google maps geolocation ap
 
 ## swagger
 
-To read api endpoints document please refer swagger
-
 http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/
 
 ## Resources
+
 * [Weather api](https://www.weather.gov/documentation/services-web-api)
 
 * [Google Maps api](https://developers.google.com/maps)
