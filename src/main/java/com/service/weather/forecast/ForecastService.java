@@ -12,5 +12,5 @@ public interface ForecastService {
 
     Mono<ResponseEntity<ForecastEntity>> getForecast(String url);
 
-    Mono<ResponseEntity<GridendpointsEntity>> getGridEndpoints(Double latitude, Double longitude);
+    Mono<GridendpointsEntity> getGridEndpoints(Double latitude, Double longitude);
 }
