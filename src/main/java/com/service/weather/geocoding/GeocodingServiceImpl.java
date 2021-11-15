@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-// GeocodingResult[] results = GeocodingApi.geocode(context, "532 Browadway El Cajon, CA").await();
-
 /**
  * GeoCodingService instantiates google's api GeoApiContext
  * to get geo locations from addresses or viceversa
